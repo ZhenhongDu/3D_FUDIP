@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title> Asteroid tracking </title>
+
+    <meta name="description" content="Fully uncoupled 3D deconvolution recovers near-diffraction-limited images under various noisy conditions">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/codemirror.min.js"></script>
+    <script src="js/clipboard.min.js"></script>
+    <script src="js/app.js"></script>
+	
+<!--
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+-->
+	
+	<link rel="stylesheet" href="css/dics.min.css">
+    <script src="scripts/dics.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', domReady);
+        function domReady() {
+            for (const e of document.querySelectorAll(".b-dics")) {
+                new Dics({
+                    container: e,
+                    textPosition: "top"
+                });
+            }
+        }
+    </script>
+	
+</head>
+
+<body>
+    <div class="container" id="main">
+        <div class="row">
+            <h1 class="col-md-12 text-center">
+                <b>Fully uncoupled 3D deconvolution recovers near-diffraction-limited images under various noisy conditions</b><br>
+                <small>
+                    Submitted to xxx 2023.
+                </small>
+            </h1>
+        </div>
+		
+		<div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline">
+                    <li>
+                        Zhenhong Du<sup>1</sup>
+                    </li>
+
+					<li>
+                        Jiajia Chen<sup>1,2,3</sup>
+                    </li>
+	
+					<li>
+                        Cancan Gao<sup>2</sup>
+                        
+                    </li>
+
+                    <li>
+                        Zizeng Wang<sup>1</sup>
+                    </li>
+
+					<li>
+                        Jiayu Li<sup>1,3</sup>
+                    </li>
+
+                    <li>
+                        Qin Ru<sup>1,3</sup>
+                    </li>
+
+                    <li>
+                        Yao Zheng<sup>1,3</sup>
+                    </li>
+
+                    <li>
+                        Wei Gong*<sup>1,3</sup>
+                    </li>
+
+                    <li>
+                        Ke Si*<sup>1,3</sup>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+		
+		<div class="row">
+            <div class="col-md-12 text-center">
+                <sup>1</sup> Zhejiang University<br>
+                <sup>2</sup> Laboratory of xxx <br>
+                *Denotes corresponding author
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="column">
+                <p class="mb-5"><a class="btn btn-large btn-light" href="" role="button"  target="_blank">
+                  <i class="fa fa-file"></i> Paper (Coming soon)</a> </p>
+            </div>
+            <div class="column">
+                <p class="mb-5"><a class="btn btn-large btn-light" id="code" href="https://github.com/" role="button" 
+                  target="_blank" disabled=1>
+              <i class="fa fa-github-alt"></i> Code (coming soon)</a> </p>
+            </div>
+            <div class="column">
+                <p class="mb-5"><a class="btn btn-large btn-light" id="dataset" href="" role="button" 
+                  target="_blank" disabled=1>
+              <i class="fa fa-github-alt"></i> Dataset (coming soon) </a> </p>
+            </div>
+          </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h2>
+                    Abstract
+                </h2>
+                <!-- <image src="img/rays.jpg" class="img-responsive" alt="overview"><br> -->
+                <p class="text-justify">
+                    The fluorescent images usually suffer from deterioration introduced by blurring and noise. Deconvolution techniques partially reverse the image degradation, but are susceptible to noise. To break the trade-off between noise suppression and fine detail preservation, we develop a method to fully decouple the deconvolution process into deblurring and denoising parts. Our method, 3D fully uncoupled deconvolution method with alternating iteration based on Poisson model (3D-FUDIP), achieves a nearly 8-fold improvement in spatial resolution. By the employment of Poisson model, 3D-FUDIP can be applied to various noise conditions, especially low-light conditions where the photon number is extremely small, with improvements of signal-to-noise ratio (SNR) by up to 6-fold. Besides, 3D-FUDIP boosts the spatial-bandwidth product (SBP) by one order of magnitude, allowing more spine details to be resolved within larger imaging volume, to some extent circumventing the trade-off between high resolution and wide imaging field of view (FOV). By synergizing deep learning with these advances, we then propose CascadeDeconNet based on 3D-FUDIP to further improve the imaging resolution. Finally, we extend our 3D-FUDIP to various imaging systems, including confocal, two-photon, and light-sheet microscopes, showing the compatibility and potential applications in biological science.
+                </p>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                
+                <h2>
+                    Principles of the 3D-FUDIP
+                </h2>
+                <br>
+                <image src="img/pipeline.png" style="width:100%;" class="img-responsive center-block" alt="overview"></image>
+                <br>
+                <p class="text-justify">
+                    We propose a new pipeline for ...</p>
+            </div>
+        </div>
+		
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h2>
+                    Image gallery
+                </h2>
+                <h3>
+                    3D-FUDIP achieves a nearly 8-fold improvement in spatial resolution
+                </h3>
+                Deconvolution results of 200 nm microbeads using a small amount of labeled data.<br>
+                PS: You can drag your mouse to view the deconvolution results below.
+
+                <div class="row comp-margin">
+                    <!-- 第一个内容块 -->
+                    <div class="col-md-8 no-gutter">
+                        <h4></h4>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/MAX_200nm_beads.png" alt="Raw" />
+                            <img src="img/MAX_200nm_beads_3D_FUDIP.png" alt="3D-FUDIP" />
+                        </div>
+                    </div>
+                    <br>
+                    <!-- 第二个内容块 -->
+                    <div class="col-md-4 no-gutter">
+                        <b>System</b>:<br> Spinning disk confocal microscope (Spin10, CSU-W1, Olympus ).
+                        <br>
+                        <b>Objective</b>:<br> UPLSAPO S (40×/1.25-NA, Silicone Oil, Olympus).
+                        <br>
+                        <b>Camera</b>:<br> sCMOS camera (ORCA-Flash4.0 V3, Hamamatsu, Japan).       
+                        <br>
+
+                        <b>Sample</b>:<br> 200 nm microbeads.
+                        <br>
+
+                        <b>Description</b>:<br> Left: raw data; <br>Right: 3D-FUDIP output.       
+                        <br><br>
+                        </a>
+                      </div>
+                </div>
+
+            </div>
+        </div>
+		
+    
+
+<!--
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Related links
+                </h3>
+                <p class="text-justify">
+                  Something something? or delete. could be like mipnerf360/volsdf, something that uses spherical gaussians? idk
+                </p>
+                </p>
+            </div>
+        </div>
+-->
+		<br>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    3D-FUDIP enhances SNR under low-light conditions. 
+                </h3>
+
+                <div class="row comp-margin">
+                    <!-- 第一个内容块 -->
+                    <div class="col-md-8 no-gutter">
+                        <h4></h4>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/MAX_colored-20p.png" alt="Raw" />
+                            <img src="img/MAX_colored-2-20p-FUDIP.png" alt="3D-FUDIP" />
+                        </div>
+                    </div>
+                    <br>
+                    <!-- 第二个内容块 -->
+                    <div class="col-md-4 no-gutter">
+                        <b>System</b>:<br> Spinning disk confocal microscope (Spin10, CSU-W1, Olympus ).
+                        <br>
+                        <b>Objective</b>:<br> UPLSAPO S (40×/1.25-NA, Silicone Oil, Olympus).
+                        <br>
+                        <b>Camera</b>:<br> sCMOS camera (ORCA-Flash4.0 V3, Hamamatsu, Japan).       
+                        <br>
+
+                        <b>Sample</b>:<br> Thy-1-GFP mouse brain slices.
+                        <br>
+
+                        <b>Description</b>:<br> Left: raw data; <br>Right: 3D-FUDIP output.       
+                        <br><br>
+                        </a>
+                      </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    3D-FUDIP boosts the space-bandwidth product
+                </h3>
+                <h4>
+                    Comparison of the maximum image volume of different objectives
+                </h4>
+
+                <div class="row comp-margin">
+                    <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="" controls="" id="compare_vid">
+                        <source src="videos/Imgae_volume_comparison.mp4" type="video/mp4">
+                    </video>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Acknowledgements
+                </h3>
+                <p class="text-justify">
+                Thanks to <a href="http://mgharbi.com/">Michaël Gharbi</a> and <a href="https://lioryariv.github.io/"> Lior Yariv</a> for the website template.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
