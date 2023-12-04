@@ -7,7 +7,7 @@
 
     <title> 3D-FUDIP </title>
 
-    <meta name="description" content="Fully uncoupled 3D deconvolution recovers near-diffraction-limited images under various noisy conditions">
+    <meta name="description" content="Three-dimensional fully uncoupled deconvolution overcomes the trade-off between deblurring and denoising in fluorescence microscopy">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
@@ -19,9 +19,8 @@
     <link rel="stylesheet" href="css/awesome.min.css">
     <link rel="stylesheet" href="css/codemirror.min.css">
     <link rel="stylesheet" href="css/app.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/bootstrap-4.4.1.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/dics.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
 
     <script src="js/jquery.min.js"></script>
@@ -37,7 +36,6 @@
     </script>
 -->
 	
-	<link rel="stylesheet" href="css/dics.min.css">
     <script src="scripts/dics.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', domReady);
@@ -53,7 +51,221 @@
 	
 </head>
 
+<style>
+    code {
+      white-space: pre-wrap;
+    }
 
+    body {
+      font-family: 'Helvetica';
+    }
+
+    b {
+      font-weight: black;
+    }
+
+    strong {
+      font-weight: bold;
+    }
+
+    section>h5 {
+      padding-bottom: 30px;
+    }
+
+    .col-12>h3 {
+      padding-top: 30px;
+    }
+
+    .results-section {
+      padding-bottom: 30px;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .carousel-control-prev {
+      left: 25px;
+    }
+
+    .carousel-control-next {
+      right: 25px;
+    }
+
+    .carousel-indicators {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      bottom: 10%;
+      left: 90%;
+
+      /* Adjust vertical position */
+      text-align: center;
+      /* Center the content horizontally */
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .carousel-indicators li {
+      background-color: transparent;
+      /* Hide the default Bootstrap indicators */
+      border: none;
+      /* Remove border */
+      margin: 0 25px;
+      display: inline-block;
+    }
+
+    .indicator-dot {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      text-indent: -999px;
+      border: none;
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .row.sm-gutters {
+      margin-right: 5px;
+      margin-left: 5px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    .row.sm-gutters>.col-md-4 {
+      padding-right: 5px;
+      padding-left: 5px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    .row.sm-gutters>.col-md-6 {
+      padding-right: 5px;
+      padding-left: 5px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    .row.sm-gutters>.col-md-12 {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-right: 5px;
+      padding-left: 5px;
+    }
+
+    .renbody-zoom-container {
+      width: 80%;
+      /* Or whatever size you want */
+      aspect-ratio: 0.75;
+      /* Or whatever size you want */
+      overflow: hidden;
+      /* Hide the parts of the video outside the container */
+      object-fit: cover;
+      /* Make sure the video covers the container without stretching */
+      object-position: center;
+      /* Center the video */
+      border-radius: 5px;
+    }
+
+    .mobile-zoom-container {
+      width: 100%;
+      /* Or whatever size you want */
+      aspect-ratio: 0.75;
+      /* Or whatever size you want */
+      overflow: hidden;
+      /* Hide the parts of the video outside the container */
+      object-fit: cover;
+      /* Make sure the video covers the container without stretching */
+      object-position: center;
+      /* Center the video */
+      border-radius: 5px;
+      margin: 5px
+    }
+
+    .video-zoom-container {
+      overflow: hidden;
+      /* Hide the parts of the video outside the container */
+      object-fit: cover;
+      /* Make sure the video covers the container without stretching */
+      object-position: center;
+      border-radius: 5px;
+      margin: 5px;
+    }
+
+    .zoom-element {
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .zoom-element:hover {
+      transform: scale(1.65);
+    }
+
+    .nhr-zoom {
+      transform: scale(1.45);
+    }
+
+    .renbody-zoom {
+      transform: scale(1.65) translateY(2%);
+      border-radius: 5px;
+    }
+
+    .mobile-zoom {
+      transform: scale(1.65);
+      border-radius: 5px;
+    }
+
+    .zjumocap-zoom {
+      transform: scale(1.3);
+    }
+
+    video {
+      border-radius: 5px;
+      padding: 0px;
+      margin: 0px;
+    }
+
+    .comparison-canvas {
+      padding: 0px;
+      margin: 0px;
+      border-radius: 5px;
+    }
+
+    .a16x9 {
+      aspect-ratio: 16/9;
+    }
+
+    .a4x3 {
+      aspect-ratio: 1352/1014;
+    }
+
+    .a1x1 {
+      aspect-ratio: 1;
+    }
+
+    .a16x9demo {
+      aspect-ratio: 1920/1152;
+    }
+
+    .a4x3demo {
+      aspect-ratio: 1352/1086;
+    }
+
+    .a1x1demo {
+      aspect-ratio: 1600/1672;
+    }
+  </style>
 
 <!-- cover -->
 <section>
@@ -62,26 +274,30 @@
         <div class="row">
           <div class="col">
             <h2>
-                <b>Fully uncoupled 3D deconvolution recovers near-diffraction-limited images under various noisy conditions</b>
+                <b>Three-dimensional fully uncoupled deconvolution overcomes the trade-off between deblurring and denoising in fluorescence microscopy</b>
             </h2>
             
             <hr>
 
-            <h6> Zhenhong Du</a><sup>1†</sup>,
-                 Jiajia Chen</a><sup>3†</sup>, 
-                 Cancan Gao</a><sup>2†</sup>, 
-                 Zizeng Wang</a><sup>1</sup>, 
-                 Jiayu Li</a><sup>3</sup>,
-                 Qin Ru </a><sup>3</sup>,
-                 Yao Zheng </a><sup>3</sup>,
-                 Wei Gong </a><sup>1,2,3*</sup>,
-                 Ke Si </a><sup>1,2,3*</sup>
+            <h6> Zhenhong Du</a><sup>1,2,3,†</sup>,
+                 Jiajia Chen</a><sup>4,5,†</sup>, 
+                 Cancan Gao</a><sup>4,5,†</sup>, 
+                 Zizeng Wang</a><sup>1,3</sup>, 
+                 Jiayu Li</a><sup>1</sup>,
+                 Qin Ru </a><sup>4</sup>,
+                 Yao Zheng </a><sup>3,4</sup>,
+                 Wei Gong </a><sup>2,4,5,6*</sup>,
+                 Ke Si </a><sup>1,3,4,5*</sup>
             </h6>
 
-            <p> <sup>1</sup><i>College of Optical Science and Engineering, Zhejiang University</i> &nbsp;&nbsp;
-                <sup>2</sup><i>Zhejiang University School of Medicine</i> &nbsp;&nbsp; 
-                <sup>3</sup><i>Liangzhu Laboratory</i>
+            <p> <sup>1</sup><i>Department of Psychiatry of the First Affiliated Hospital and School of Brain Science and Brain Medicine, State Key Laboratory of Extreme Photonics and Instrumentation, Zhejiang University School of Medicine</i> &nbsp;&nbsp;
                 <br>
+                <sup>2</sup><i>Nanhu Brain-computer Interface Institute</i> &nbsp;&nbsp; 
+                <sup>3</sup><i>College of Optical Science and Engineering, Zhejiang University</i> &nbsp;&nbsp; 
+                <br>
+                <sup>4</sup><i>Liangzhu Laboratory</i> &nbsp;&nbsp; 
+                <sup>5</sup><i>NHC and CAMS Key Laboratory of Medical Neurobiology, Zhejiang University</i> &nbsp;&nbsp; 
+                <sup>6</sup><i>Lingang Laboratory</i> &nbsp;&nbsp; 
             
             </p>
             <p>
@@ -115,56 +331,22 @@
 
 <body>
     <div class="container" id="main">
+		<h2> <i class="fa fa-camera-retro"></i> Image gallery </h2>
         
-        <div class="row">
-            <div class="col-md-12 col-md-offset-2">
-                <h2>
-                    Abstract
-                </h2>
-                <!-- <image src="img/rays.jpg" class="img-responsive" alt="overview"><br> -->
-                <p class="justify-content-center">
-                    The fluorescent images usually suffer from deterioration introduced by blurring and noise. Deconvolution techniques partially reverse the image degradation, but are susceptible to noise. To break the trade-off between noise suppression and fine detail preservation, we develop a method to fully decouple the deconvolution process into deblurring and denoising parts. Our method, 3D fully uncoupled deconvolution method with alternating iteration based on Poisson model (3D-FUDIP), achieves a nearly 8-fold improvement in spatial resolution. By the employment of Poisson model, 3D-FUDIP can be applied to various noise conditions, especially low-light conditions where the photon number is extremely small, with improvements of signal-to-noise ratio (SNR) by up to 6-fold. Besides, 3D-FUDIP boosts the spatial-bandwidth product (SBP) by one order of magnitude, allowing more spine details to be resolved within larger imaging volume, to some extent circumventing the trade-off between high resolution and wide imaging field of view (FOV). By synergizing deep learning with these advances, we then propose CascadeDeconNet based on 3D-FUDIP to further improve the imaging resolution. Finally, we extend our 3D-FUDIP to various imaging systems, including confocal, two-photon, and light-sheet microscopes, showing the compatibility and potential applications in biological science.
-                </p>
-            </div>
-        </div>
 
+        <h4 style="text-align: right;">
+            3D-FUDIP
+        </h4>
 
+        <hr style="margin-top: 0px" />
 
-        <div class="row">
-            <div class="col-md-10 col-md-offset-2">
-                
-                <h2>
-                    Principles of the 3D-FUDIP
-                </h2>
-                <br>
-                <image src="img/pipeline.png" style="width:100%;" class="img-responsive center-block" alt="overview"></image>
-                <br>
-                <p class="justify-content-center">
-                    We propose a new pipeline for ...</p>
-            </div>
-        </div>
-
-		<h2>
-            <b>Image gallery</b>
-        </h2>
-
-        <br>
-
-
-        <h3>
-            3D-FUDIP achieves a nearly 8-fold improvement in spatial resolution
-        </h3>
 
         <div class="row justify-content-center">
             <div class="col-md-10 col-md-offset-2">
                 
-                
-                Deconvolution results of 200 nm microbeads using a small amount of labeled data.<br>
-                PS: You can drag your mouse to view the deconvolution results below.
-
                 <div class="row comp-margin">
-                    <!-- 第一个内容块 -->
-                    <div class="col-md-8 no-gutter">
+                    <!-- left block -->
+                    <div class="col-md-7 no-gutter">
                         <h4></h4>
                         <div class="b-dics" style="width: 100%">
                             <img src="img/MAX_200nm_beads.png" alt="Raw" />
@@ -172,19 +354,24 @@
                         </div>
                     </div>
                     <br>
-                    <!-- 第二个内容块 -->
+                    <!-- right block -->
                     <div class="col-md-4">
-                        <strong>System</strong>:<br> Spinning disk confocal microscope (Spin10, CSU-W1, Olympus ).
                         <br>
-                        <b>Objective</b>:<br> UPLSAPO S (40×/1.25-NA, Silicone Oil, Olympus).
+                        <strong>Sample</strong>:<br> 200 nm microbeads.
                         <br>
-                        <b>Camera</b>:<br> sCMOS camera (ORCA-Flash4.0 V3, Hamamatsu, Japan).       
+                        <strong>System</strong>: <br> Spinning disk confocal microscope (Spin10, CSU-W1, Olympus ).
+                        <br>
+                        <strong>Objective</strong>:<br> UPLSAPO S (40×/1.25-NA, Silicone Oil, Olympus).
+                        <br>
+                        <strong>Camera</strong>:<br> sCMOS camera (ORCA-Flash4.0 V3, Hamamatsu, Japan).       
                         <br>
 
-                        <b>Sample</b>:<br> 200 nm microbeads.
-                        <br>
+                        
 
-                        <b>Description</b>:<br> Left: raw data; <br>Right: 3D-FUDIP output.       
+                        <strong>Description</strong>:<br> 
+                        Maximum intensity projection (MIP) in <i>xy</i> direction.<br>
+                        <br>
+                        Left: raw data; <br>Right: 3D-FUDIP output.       
                         <br><br>
                         </a>
                       </div>
@@ -192,32 +379,20 @@
 
             </div>
         </div>
+
+
+
+
+        <br>
+		<hr style="margin-top: 0px" />
 		
-    
 
-<!--
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h3>
-                    Related links
-                </h3>
-                <p class="text-justify">
-                  Something something? or delete. could be like mipnerf360/volsdf, something that uses spherical gaussians? idk
-                </p>
-                </p>
-            </div>
-        </div>
--->
-		<br>
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-10 col-md-offset-2">
-                <h3>
-                    3D-FUDIP enhances SNR under low-light conditions. 
-                </h3>
-
+                
                 <div class="row comp-margin">
-                    <!-- 第一个内容块 -->
-                    <div class="col-md-8 no-gutter">
+                    <!-- left block -->
+                    <div class="col-md-7 no-gutter">
                         <h4></h4>
                         <div class="b-dics" style="width: 100%">
                             <img src="img/MAX_colored-20p.png" alt="Raw" />
@@ -225,40 +400,81 @@
                         </div>
                     </div>
                     <br>
-                    <!-- 第二个内容块 -->
-                    <div class="col-md-4 no-gutter">
-                        <b>System</b>:<br> Spinning disk confocal microscope (Spin10, CSU-W1, Olympus ).
+                    <!-- right block -->
+                    <div class="col-md-4">
                         <br>
-                        <b>Objective</b>:<br> UPLSAPO S (40×/1.25-NA, Silicone Oil, Olympus).
-                        <br>
-                        <b>Camera</b>:<br> sCMOS camera (ORCA-Flash4.0 V3, Hamamatsu, Japan).       
-                        <br>
+                        <strong>Sample</strong>:<br> Thy-1-GFP mouse brain slices.
 
-                        <b>Sample</b>:<br> Thy-1-GFP mouse brain slices.
                         <br>
+                        <strong>System</strong>: <br> Spinning disk confocal microscope (Spin10, CSU-W1, Olympus ).
+                        <br>
+                        <strong>Objective</strong>:<br> UPLSAPO S (40×/1.25-NA, Silicone Oil, Olympus).
+                        <br>
+                        <strong>Camera</strong>:<br> sCMOS camera (ORCA-Flash4.0 V3, Hamamatsu, Japan).       
+                        <br>
+                        
 
-                        <b>Description</b>:<br> Left: raw data; <br>Right: 3D-FUDIP output.       
+                        <strong>Description</strong>:<br>
+                        Depth color-coded MIP in <i>xy</i> direction.<br>
+                        <br>
+                        <b>Left</b>: raw data; <br>
+                        Right: 3D-FUDIP output.       
                         <br><br>
                         </a>
                       </div>
                 </div>
-                
+
             </div>
         </div>
-        
-        
-        <div class="row">
-            <div class="col-md-10 col-md-offset-2">
-                <h3>
-                    3D-FUDIP boosts the space-bandwidth product
-                </h3>
-                <h4>
-                    Comparison of the maximum image volume of different objectives
-                </h4>
 
+        <br>
+		<hr style="margin-top: 0px" />
+
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-md-offset-2">
+                
+                <div class="row comp-margin">
+                    <!-- left block -->
+                    <div class="col-md-7 no-gutter">
+                        <h4></h4>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/40x_raw_MIP.png" alt="Raw" />
+                            <img src="img/40x_FUDIP_MIP.png" alt="3D-FUDIP" />
+                        </div>
+                    </div>
+                    <br>
+                    <!-- right block -->
+                    <div class="col-md-4">
+                        <br>
+                        <strong>Sample</strong>:<br> Sindbis-pal-EGFP labeled mouse brain.
+                        <br>
+                        <strong>System</strong>: <br> Spinning disk confocal microscope (Spin10, CSU-W1, Olympus ).
+                        <br>
+                        <strong>Objective</strong>:<br> UPLSAPO S (40×/1.25-NA, Silicone Oil, Olympus).
+                        <br>
+                        <strong>Camera</strong>:<br> sCMOS camera (ORCA-Flash4.0 V3, Hamamatsu, Japan).       
+                        <br>
+                        
+
+                        <strong>Description</strong>:<br> 
+                        Maximum intensity projection (MIP) in <i>xy</i> direction.<br>
+                        <b>Left</b>: raw data; <br>Right: 3D-FUDIP output.       
+                        <br><br>
+                        </a>
+                      </div>
+                </div>
+
+            </div>
+        </div>
+
+        <br>
+		<hr style="margin-top: 0px" />
+
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-md-offset-2">
                 <div class="row comp-margin">
                     <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="" controls="" id="compare_vid">
-                        <source src="videos/Imgae_volume_comparison.mp4" type="video/mp4">
+                        <source src="videos/vedio1_cut.mp4" type="video/mp4">
                     </video>
                 </div>
 
@@ -266,18 +482,107 @@
             </div>
         </div>
 
+        
+        <br>
+		<hr style="margin-top: 0px" />
 
+        <h4 style="text-align: right;">
+            CascadeDeconNet
+        </h4>
+        <hr style="margin-top: 0px" />
 
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-10 col-md-offset-2">
-                <h3>
-                    Acknowledgements
-                </h3>
-                <p class="text-justify">
-                Thanks to <a href="http://mgharbi.com/">Michaël Gharbi</a> and <a href="https://lioryariv.github.io/"> Lior Yariv</a> for the website template.
-                </p>
+                
+                <div class="row comp-margin">
+                    <!-- left block -->
+                    <div class="col-md-7 no-gutter">
+                        <br>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/MIPxz_40x_raw.png" alt="Raw" />
+                            <img src="img/MIPxz_40x_CascadeDeconNet.png" alt="CascadeDeconNet" />
+                        </div>
+                    </div>
+                    <br>
+                    <!-- right block -->
+                    <div class="col-md-4">
+                        <strong>Sample</strong>:<br> Sindbis-pal-EGFP labeled mouse brain.
+                        <br>
+                        <strong>System</strong>: <br> Spinning disk confocal microscope (Spin10, CSU-W1, Olympus ).
+                        <br>
+                        <strong>Objective</strong>:<br> UPLSAPO S (40×/1.25-NA, Silicone Oil, Olympus).
+                        <br>
+                        <strong>Camera</strong>:<br> sCMOS camera (ORCA-Flash4.0 V3, Hamamatsu, Japan).       
+                        <br>
+
+                        
+
+                        <strong>Description</strong>:<br> 
+                        <b>Left</b>: raw data; <br>Right: CascadeDeconNet output.       
+                        <br><br>
+                        </a>
+                      </div>
+                </div>
             </div>
         </div>
+
+
+        <hr style="margin-top: 0px" />
+
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-md-offset-2">
+                
+                <div class="row comp-margin">
+                    <!-- left block -->
+                    <div class="col-md-7 no-gutter">
+                        <h4></h4>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/Volume_40x_raw_561c_w_axis.png" alt="Raw" />
+                            <img src="img/Volume_40x_CascadeDeconNet_561c.png" alt="CascadeDeconNet" />
+                        </div>
+                    </div>
+                    <br>
+                    <!-- right block -->
+                    <div class="col-md-4">
+                        <br>
+                        <strong>Sample</strong>:<br> Sindbis-pal-tdTomato labeled mouse brain.
+                        <br>
+                        <strong>System</strong>: <br> Spinning disk confocal microscope (Spin10, CSU-W1, Olympus ).
+                        <br>
+                        <strong>Objective</strong>:<br> UPLSAPO S (40×/1.25-NA, Silicone Oil, Olympus).
+                        <br>
+                        <strong>Camera</strong>:<br> sCMOS camera (ORCA-Flash4.0 V3, Hamamatsu, Japan).       
+                        <br>
+
+                        
+
+                        <strong>Description</strong>:<br> 
+                        <b>Left</b>: raw data; <br>Right: CascadeDeconNet output.       
+                        <br><br>
+                        </a>
+                      </div>
+                </div>
+                <br>
+
+                <h5>Enlarged ROI in <i>xz</ii></h5>
+
+                <div class="b-dics" style="width: 100%">
+                    <img src="img/MIPxz_40x_raw_561c.png" alt="Raw" />
+                    <img src="img/MIPxz_40x_CascadeDeconNet_561c.png" alt="CascadeDeconNet" />
+                </div>
+
+            </div>
+        </div>
+
+        
+        <br>
+        <hr style="margin-top: 0px" />
+
+
+        <h2> <i class="fa fa-handshake-o"></i> Acknowledgements </h2>
+        <p class="text-justify">
+            Thanks to <a href="https://pengsida.net/">Prof. Sida Peng</a>，<a href="https://lioryariv.github.io/"> Dr. Lior Yariv</a>， and <a href="https://weisongzhao.github.io/">Prof. Weisong Zhao</a> for the website template.
+        </p>
 
     </div>
 </body>
